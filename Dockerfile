@@ -2,6 +2,7 @@
 FROM node:latest as builder
 WORKDIR /usr/src/app
 COPY package*.json ./
+RUN npm install -g npm@10.5.2
 RUN npm install
 COPY . .
 RUN npm run build
