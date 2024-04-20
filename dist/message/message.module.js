@@ -6,20 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.MessageModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const message_module_1 = require("./message/message.module");
+const message_controller_1 = require("./message.controller");
+const message_service_1 = require("./message.service");
 const mongoose_1 = require("@nestjs/mongoose");
-let AppModule = class AppModule {
+const message_shemas_1 = require("./schemas/message.shemas");
+let MessageModule = class MessageModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.MessageModule = MessageModule;
+exports.MessageModule = MessageModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forRoot('mongodb+srv://tsilavo:La06l7iNMwlWuuWX@heritsilavo.fbgfz9p.mongodb.net/portfolio?retryWrites=true&w=majority&appName=heritsilavo'), message_module_1.MessageModule],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: message_shemas_1.Message.name, schema: message_shemas_1.MessageSchema }])],
+        controllers: [message_controller_1.MessageController],
+        providers: [message_service_1.MessageService]
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], MessageModule);
+//# sourceMappingURL=message.module.js.map
