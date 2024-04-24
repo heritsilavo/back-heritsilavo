@@ -12,12 +12,14 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const message_module_1 = require("./message/message.module");
 const mongoose_1 = require("@nestjs/mongoose");
+const projet_module_1 = require("./projet/projet.module");
+const offre_module_1 = require("./offre/offre.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forRoot('mongodb+srv://tsilavo:La06l7iNMwlWuuWX@heritsilavo.fbgfz9p.mongodb.net/portfolio?retryWrites=true&w=majority&appName=heritsilavo'), message_module_1.MessageModule],
+        imports: [mongoose_1.MongooseModule.forRoot('mongodb+srv://tsilavo:La06l7iNMwlWuuWX@heritsilavo.fbgfz9p.mongodb.net/portfolio?retryWrites=true&w=majority&appName=heritsilavo'), message_module_1.MessageModule, projet_module_1.ProjetModule, offre_module_1.OffreModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

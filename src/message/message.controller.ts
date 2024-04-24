@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/message.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Message } from './schemas/message.shemas';
 
 @Controller('messages')
 export class MessageController {
@@ -20,5 +21,27 @@ export class MessageController {
     return this.messageService.create(createMessageDto);
   }
 
-  // ... autres méthodes ...
+  // Méthode pour récupérer un message par son ID
+  @Get(':id')
+  @ApiOperation({ summary: 'Retrieve a message by its ID' })
+  async findOne(@Param('id') id: string): Promise<Message> {
+    return this.messageService.findOne(id);
+  }
+
+  // Méthode pour mettre à jour un message
+  @Post(':id')
+  @ApiOperation({ summary: 'Update a message' })
+  async update(
+    @Param('id') id: string,
+    @Body() updateMessageDto: CreateMessageDto,
+  ): Promise<Message> {
+    return this.messageService.update(id, updateMessageDto);
+  }
+
+  // Méthode pour supprimer un message
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a message' })
+  async delete(@Param('id') id: string): Promise<Message> {
+    return this.messageService.delete(id);
+  }
 }

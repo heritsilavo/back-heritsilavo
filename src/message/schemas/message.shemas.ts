@@ -10,6 +10,9 @@ export class Message {
   @Prop()
   date: Date;
 
+  @ApiProperty({ example: 'inconnu', description: 'celui qui envoi le message' })
+  @Prop()
+  auteur: string;
 
   @ApiProperty({ example: 'Contenu du message', description: 'Le contenu du message' })
   @Prop()

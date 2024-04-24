@@ -27,6 +27,15 @@ let MessageController = class MessageController {
     async create(createMessageDto) {
         return this.messageService.create(createMessageDto);
     }
+    async findOne(id) {
+        return this.messageService.findOne(id);
+    }
+    async update(id, updateMessageDto) {
+        return this.messageService.update(id, updateMessageDto);
+    }
+    async delete(id) {
+        return this.messageService.delete(id);
+    }
 };
 exports.MessageController = MessageController;
 __decorate([
@@ -46,6 +55,31 @@ __decorate([
     __metadata("design:paramtypes", [message_dto_1.CreateMessageDto]),
     __metadata("design:returntype", Promise)
 ], MessageController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Retrieve a message by its ID' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], MessageController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Post)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Update a message' }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, message_dto_1.CreateMessageDto]),
+    __metadata("design:returntype", Promise)
+], MessageController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Delete a message' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], MessageController.prototype, "delete", null);
 exports.MessageController = MessageController = __decorate([
     (0, common_1.Controller)('messages'),
     __metadata("design:paramtypes", [message_service_1.MessageService])
