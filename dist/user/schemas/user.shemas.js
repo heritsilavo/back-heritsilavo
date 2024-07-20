@@ -9,29 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageSchema = exports.Message = void 0;
+exports.UserSchema = exports.User = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const swagger_1 = require("@nestjs/swagger");
-let Message = class Message {
+let User = class User {
 };
-exports.Message = Message;
+exports.User = User;
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: '2024-04-18T21:10:53.000Z', description: 'La date du message' }),
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Date)
-], Message.prototype, "date", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: 'inconnu', description: 'celui qui envoi le message' }),
+    (0, swagger_1.ApiProperty)({ example: 'Tsilavo', description: 'Nom de l\'utilisateur' }),
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Message.prototype, "auteur", void 0);
+], User.prototype, "username", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Contenu du message', description: 'Le contenu du message' }),
+    (0, swagger_1.ApiProperty)({ example: 'xxxxxx', description: 'Mot de passe' }),
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Message.prototype, "contenu", void 0);
-exports.Message = Message = __decorate([
+], User.prototype, "mdp", void 0);
+exports.User = User = __decorate([
     (0, mongoose_1.Schema)()
-], Message);
-exports.MessageSchema = mongoose_1.SchemaFactory.createForClass(Message);
-//# sourceMappingURL=message.shemas.js.map
+], User);
+exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
+//# sourceMappingURL=user.shemas.js.map
