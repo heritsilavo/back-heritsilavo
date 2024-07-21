@@ -27,6 +27,9 @@ let UserController = class UserController {
     async create(createUserDto) {
         return this.UserService.create(createUserDto);
     }
+    async login(infos) {
+        return this.UserService.login(infos);
+    }
     async findOne(id) {
         return this.UserService.findOne(id);
     }
@@ -56,6 +59,25 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)('/login'),
+    (0, swagger_1.ApiOperation)({ summary: 'Se connecter' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Connecté' }),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: 'object',
+            properties: {
+                username: { type: 'string' },
+                mdp: { type: 'string' },
+            },
+            required: ['username', 'mdp'],
+        },
+    }),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "login", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, swagger_1.ApiOperation)({ summary: 'Retrieve a User by its ID' }),

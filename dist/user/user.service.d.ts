@@ -28,6 +28,10 @@ import { CreateUserDto } from './dto/user.dto';
 export declare class UserService {
     private UserModel;
     constructor(UserModel: Model<UserDocument>);
+    login(infos: {
+        username: string;
+        mdp: string;
+    }): Promise<any>;
     create(createUserDto: CreateUserDto): Promise<User>;
     findAll(): Promise<User[]>;
     findOne(id: string): Promise<User>;

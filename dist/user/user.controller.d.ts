@@ -6,6 +6,10 @@ export declare class UserController {
     constructor(UserService: UserService);
     getAll(): Promise<User[]>;
     create(createUserDto: CreateUserDto): Promise<User>;
+    login(infos: {
+        username: string;
+        mdp: string;
+    }): Promise<any>;
     findOne(id: string): Promise<User>;
     update(id: string, updateUserDto: CreateUserDto): Promise<User>;
     delete(id: string): Promise<User>;

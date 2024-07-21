@@ -8,6 +8,21 @@ import { CreateUserDto } from './dto/user.dto';
 export class UserService {
   constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) {}
 
+  // Méthode pour la connexion d'un User
+  async login(infos: { username: string; mdp: string }): Promise<any> {
+    const user = await this.UserModel.findOne({ username: infos.username }).exec();
+    if (!user) {
+      return {error:"Utilisateur non trouvée"}
+    }
+
+    const isPasswordValid = (user.mdp === infos.mdp)
+    if (!isPasswordValid) {
+      return {error:"Mot de passe incorrecte"}
+    }
+
+    return user.toObject();
+  }
+
   // Méthode pour créer un nouveau User
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createdUser = new this.UserModel(createUserDto);

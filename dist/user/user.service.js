@@ -21,6 +21,17 @@ let UserService = class UserService {
     constructor(UserModel) {
         this.UserModel = UserModel;
     }
+    async login(infos) {
+        const user = await this.UserModel.findOne({ username: infos.username }).exec();
+        if (!user) {
+            return { error: "Utilisateur non trouvée" };
+        }
+        const isPasswordValid = (user.mdp === infos.mdp);
+        if (!isPasswordValid) {
+            return { error: "Mot de passe incorrecte" };
+        }
+        return user.toObject();
+    }
     async create(createUserDto) {
         const createdUser = new this.UserModel(createUserDto);
         return createdUser.save();

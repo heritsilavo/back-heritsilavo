@@ -22,6 +22,23 @@ export class UserController {
     return this.UserService.create(createUserDto);
   }
 
+  @Post('/login')
+  @ApiOperation({ summary: 'Se connecter' })
+  @ApiResponse({ status: 201, description: 'Connecté' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        username: { type: 'string' },
+        mdp: { type: 'string' },
+      },
+      required: ['username', 'mdp'],
+    },
+  })
+  async login(@Body() infos:{username:string, mdp:string}) {
+    return this.UserService.login(infos);
+  }
+
   // Méthode pour récupérer un User par son ID
   @Get(':id')
   @ApiOperation({ summary: 'Retrieve a User by its ID' })
