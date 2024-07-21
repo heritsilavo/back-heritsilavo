@@ -12,12 +12,16 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_module_1 = require("./user/user.module");
+const fichier_module_1 = require("./fichier/fichier.module");
+const post_module_1 = require("./post/post.module");
+const conversation_module_1 = require("./conversation/conversation.module");
+const message_module_1 = require("./message/message.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forRoot('mongodb+srv://tsilavo:NN3Rfl8vYAJPQ2Ly@heritsilavo.fbgfz9p.mongodb.net/messagerie?retryWrites=true&w=majority&appName=heritsilavo'), user_module_1.UserModule],
+        imports: [mongoose_1.MongooseModule.forRoot('mongodb+srv://tsilavo:NN3Rfl8vYAJPQ2Ly@heritsilavo.fbgfz9p.mongodb.net/messagerie?retryWrites=true&w=majority&appName=heritsilavo'), user_module_1.UserModule, fichier_module_1.FichierModule, post_module_1.PostModule, conversation_module_1.ConversationModule, message_module_1.MessageModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
