@@ -12,5 +12,10 @@ FROM node:alpine
 WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/node_modules ./node_modules
+
+# Créer le répertoire uploads et copier son contenu
+RUN mkdir -p /usr/src/app/uploads
+COPY --from=builder /usr/src/app/uploads /usr/src/app/uploads
+
 EXPOSE 3000
 CMD ["node", "dist/main"]
