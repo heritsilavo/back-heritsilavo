@@ -13,6 +13,20 @@ export class InvitationService {
 
   // Méthode pour créer une nouvelle invitation
   async create(createInvitationDto: CreateInvitationDto): Promise<Invitation> {
+    const { senderId, receiverId } = createInvitationDto;
+
+    // Vérifiez si l'invitation existe déjà
+    const existingInvitation = await this.invitationModel.findOne({
+      senderId,
+      receiverId,
+    }).exec();
+
+    if (existingInvitation) {
+      // Retournez l'invitation existante si elle est trouvée
+      return existingInvitation;
+    }
+
+    // Créez une nouvelle invitation si elle n'existe pas
     const createdInvitation = new this.invitationModel(createInvitationDto);
     return createdInvitation.save();
   }

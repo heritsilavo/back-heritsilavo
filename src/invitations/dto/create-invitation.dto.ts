@@ -2,5 +2,5 @@
 export class CreateInvitationDto {
     senderId: string;
     receiverId: string;
-  }
+}
   

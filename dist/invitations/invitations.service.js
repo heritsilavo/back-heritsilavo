@@ -22,6 +22,14 @@ let InvitationService = class InvitationService {
         this.invitationModel = invitationModel;
     }
     async create(createInvitationDto) {
+        const { senderId, receiverId } = createInvitationDto;
+        const existingInvitation = await this.invitationModel.findOne({
+            senderId,
+            receiverId,
+        }).exec();
+        if (existingInvitation) {
+            return existingInvitation;
+        }
         const createdInvitation = new this.invitationModel(createInvitationDto);
         return createdInvitation.save();
     }
