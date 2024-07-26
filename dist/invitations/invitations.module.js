@@ -12,12 +12,13 @@ const mongoose_1 = require("@nestjs/mongoose");
 const invitation_schema_1 = require("./schemas/invitation.schema");
 const invitations_service_1 = require("./invitations.service");
 const invitations_controller_1 = require("./invitations.controller");
+const user_module_1 = require("../user/user.module");
 let InvitationsModule = class InvitationsModule {
 };
 exports.InvitationsModule = InvitationsModule;
 exports.InvitationsModule = InvitationsModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: invitation_schema_1.Invitation.name, schema: invitation_schema_1.InvitationSchema }])],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: invitation_schema_1.Invitation.name, schema: invitation_schema_1.InvitationSchema }]), user_module_1.UserModule],
         providers: [invitations_service_1.InvitationService],
         controllers: [invitations_controller_1.InvitationController],
     })

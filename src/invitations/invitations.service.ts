@@ -4,11 +4,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Invitation, InvitationDocument } from './schemas/invitation.schema';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
-
+import { UserService } from 'src/user/user.service';
 @Injectable()
 export class InvitationService {
   constructor(
-    @InjectModel(Invitation.name) private invitationModel: Model<InvitationDocument>
+    @InjectModel(Invitation.name) private invitationModel: Model<InvitationDocument>,
+    private readonly userService: UserService,
   ) {}
 
   // Méthode pour créer une nouvelle invitation
@@ -37,8 +38,23 @@ export class InvitationService {
   }
 
   // Méthode pour récupérer les invitations reçues par un utilisateur
-  async findReceivedInvitations(userId: string): Promise<Invitation[]> {
-    return this.invitationModel.find({ receiverId: userId }).exec();
+  async findReceivedInvitations(userId: string): Promise<any[]> {
+    // Récupérer les invitations reçues par l'utilisateur
+    const invitations = await this.invitationModel.find({ receiverId: userId }).exec();
+    
+    // Récupérer les détails des utilisateurs qui ont envoyé ces invitations
+    const senderIds = invitations.map(invitation => invitation.senderId);
+    const senders = await this.userService.findUsersByIds(senderIds); // Méthode à définir dans UserService
+    
+    // Créer un tableau de résultats combinés
+    return invitations.map(invitation => {
+      const sender = senders.find(user => user._id.toString() === invitation.senderId);
+      
+      return {
+        ...invitation.toObject(),
+        sender,
+      };
+    });
   }
 
   // Méthode pour mettre à jour le statut d'une invitation

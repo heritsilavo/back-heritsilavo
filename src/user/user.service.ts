@@ -92,4 +92,9 @@ export class UserService {
     const allUsers = await this.UserModel.find({ _id: { $ne: userId } }).exec();
     return allUsers.filter(u => !user.amis.includes(u._id.toString()));
   }
+
+  // Méthode pour récupérer les utilisateurs par leurs IDs
+  async findUsersByIds(userIds: string[]): Promise<any> {
+    return this.UserModel.find({ _id: { $in: userIds } }).exec();
+  }
 }

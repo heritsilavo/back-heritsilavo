@@ -75,6 +75,9 @@ let UserService = class UserService {
         const allUsers = await this.UserModel.find({ _id: { $ne: userId } }).exec();
         return allUsers.filter(u => !user.amis.includes(u._id.toString()));
     }
+    async findUsersByIds(userIds) {
+        return this.UserModel.find({ _id: { $in: userIds } }).exec();
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

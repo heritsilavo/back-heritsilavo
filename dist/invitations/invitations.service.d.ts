@@ -25,11 +25,13 @@
 import { Model } from 'mongoose';
 import { Invitation, InvitationDocument } from './schemas/invitation.schema';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
+import { UserService } from 'src/user/user.service';
 export declare class InvitationService {
     private invitationModel;
-    constructor(invitationModel: Model<InvitationDocument>);
+    private readonly userService;
+    constructor(invitationModel: Model<InvitationDocument>, userService: UserService);
     create(createInvitationDto: CreateInvitationDto): Promise<Invitation>;
     findSentInvitations(userId: string): Promise<Invitation[]>;
-    findReceivedInvitations(userId: string): Promise<Invitation[]>;
+    findReceivedInvitations(userId: string): Promise<any[]>;
     updateStatus(invitationId: string, status: string): Promise<Invitation>;
 }

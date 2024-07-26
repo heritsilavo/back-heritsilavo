@@ -40,4 +40,5 @@ export declare class UserService {
     getFriends(userId: string): Promise<User[]>;
     addFriend(userId: string, friendId: string): Promise<User>;
     findNonFriends(userId: string): Promise<User[]>;
+    findUsersByIds(userIds: string[]): Promise<any>;
 }

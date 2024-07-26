@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const invitation_schema_1 = require("./schemas/invitation.schema");
+const user_service_1 = require("../user/user.service");
 let InvitationService = class InvitationService {
-    constructor(invitationModel) {
+    constructor(invitationModel, userService) {
         this.invitationModel = invitationModel;
+        this.userService = userService;
     }
     async create(createInvitationDto) {
         const { senderId, receiverId } = createInvitationDto;
@@ -37,7 +39,16 @@ let InvitationService = class InvitationService {
         return this.invitationModel.find({ senderId: userId }).exec();
     }
     async findReceivedInvitations(userId) {
-        return this.invitationModel.find({ receiverId: userId }).exec();
+        const invitations = await this.invitationModel.find({ receiverId: userId }).exec();
+        const senderIds = invitations.map(invitation => invitation.senderId);
+        const senders = await this.userService.findUsersByIds(senderIds);
+        return invitations.map(invitation => {
+            const sender = senders.find(user => user._id.toString() === invitation.senderId);
+            return {
+                ...invitation.toObject(),
+                sender,
+            };
+        });
     }
     async updateStatus(invitationId, status) {
         return this.invitationModel.findByIdAndUpdate(invitationId, { status }, { new: true }).exec();
@@ -47,6 +58,7 @@ exports.InvitationService = InvitationService;
 exports.InvitationService = InvitationService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(invitation_schema_1.Invitation.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        user_service_1.UserService])
 ], InvitationService);
 //# sourceMappingURL=invitations.service.js.map
