@@ -41,7 +41,7 @@ export class ConversationService {
     }
   }
 
-  async checkPrivateConversationExists(senderId: string, receiverId: string): Promise<boolean> {
+  async checkPrivateConversationExists(senderId: string, receiverId: string): Promise<any> {
     // Rechercher une conversation non-groupe avec les participants spécifiés
     const conversation = await this.conversationModel.findOne({
       is_group: false,
@@ -49,6 +49,6 @@ export class ConversationService {
     }).exec();
 
     // Retourne true si une telle conversation est trouvée, sinon false
-    return !!conversation;
+    return conversation || false;
   }
 }

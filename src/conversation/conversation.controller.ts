@@ -53,7 +53,7 @@ export class ConversationController {
 
   //checkPrivateConversationExists
   @Post('/checkPrivateConversationExists')
-  checkPrivateConversationExists(@Body() {sender,receiver} : {sender:string,receiver:string}): Promise<Boolean> {
+  checkPrivateConversationExists(@Body() {sender,receiver} : {sender:string,receiver:string}): Promise<any> {
     return this.conversationService.checkPrivateConversationExists(sender,receiver);
   }
 }
