@@ -95,6 +95,7 @@ let ConversationService = class ConversationService {
             const name = await this.getConversationName({ idCurrentUser: userId, idConversation: conversation._id });
             const image = await this.getConversationImage({ idCurrentUser: userId, idConversation: conversation._id });
             const lastMessage = await this.messageService.getLastMessage(conversation._id);
+            console.log(lastMessage?.timestamp);
             return {
                 ...conversation.toObject(),
                 name,
