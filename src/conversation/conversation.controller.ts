@@ -64,4 +64,11 @@ export class ConversationController {
   getConversationName(@Param('idCurrentUser') idCurrentUser: string, @Param('idConversation') idConversation: string): Promise<String> {
     return this.conversationService.getConversationName({idCurrentUser:idCurrentUser,idConversation:idConversation});
   }
+
+  @ApiParam({ name: 'idUser', description: 'id de l\'user' })
+  @Get('user/:idUser')
+  async getConversationsByUser(@Param('idUser') idUser: string) {
+    const conversations = await this.conversationService.getConversationsByUser(idUser);
+    return conversations;
+  }
 }

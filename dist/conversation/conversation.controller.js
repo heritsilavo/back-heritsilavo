@@ -44,6 +44,10 @@ let ConversationController = class ConversationController {
     getConversationName(idCurrentUser, idConversation) {
         return this.conversationService.getConversationName({ idCurrentUser: idCurrentUser, idConversation: idConversation });
     }
+    async getConversationsByUser(idUser) {
+        const conversations = await this.conversationService.getConversationsByUser(idUser);
+        return conversations;
+    }
 };
 exports.ConversationController = ConversationController;
 __decorate([
@@ -115,6 +119,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ConversationController.prototype, "getConversationName", null);
+__decorate([
+    (0, swagger_1.ApiParam)({ name: 'idUser', description: 'id de l\'user' }),
+    (0, common_1.Get)('user/:idUser'),
+    __param(0, (0, common_1.Param)('idUser')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ConversationController.prototype, "getConversationsByUser", null);
 exports.ConversationController = ConversationController = __decorate([
     (0, swagger_1.ApiTags)('conversations'),
     (0, common_1.Controller)('conversations'),

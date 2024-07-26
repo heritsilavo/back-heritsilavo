@@ -72,6 +72,34 @@ let ConversationService = class ConversationService {
         const otherParticipant = await this.userService.findOne(otherParticipantId.toString());
         return otherParticipant.username;
     }
+    async getConversationImage({ idCurrentUser, idConversation }) {
+        const conversation = await this.conversationModel.findById(idConversation).exec();
+        if (!conversation) {
+            throw new common_1.NotFoundException(`Conversation with ID ${idConversation} not found`);
+        }
+        if (conversation.is_group) {
+            return 'profile.png';
+        }
+        const otherParticipantId = conversation.participants.find(participant => participant !== idCurrentUser);
+        if (!otherParticipantId) {
+            throw new common_1.NotFoundException('Other participant not found');
+        }
+        const otherParticipant = await this.userService.findOne(otherParticipantId.toString());
+        return otherParticipant.pdp;
+    }
+    async getConversationsByUser(userId) {
+        const conversations = await this.conversationModel.find({ participants: userId }).exec();
+        const conversationsWithDetails = await Promise.all(conversations.map(async (conversation) => {
+            const name = await this.getConversationName({ idCurrentUser: userId, idConversation: conversation._id });
+            const image = await this.getConversationImage({ idCurrentUser: userId, idConversation: conversation._id });
+            return {
+                ...conversation.toObject(),
+                name,
+                image
+            };
+        }));
+        return conversationsWithDetails;
+    }
 };
 exports.ConversationService = ConversationService;
 exports.ConversationService = ConversationService = __decorate([

@@ -55,6 +55,7 @@ export class ConversationService {
     return conversation || false;
   }
 
+
   async getConversationName({idCurrentUser,idConversation}:{idCurrentUser:string,idConversation:string}): Promise<string> {
     const conversation = await this.conversationModel.findById(idConversation).exec();
     if (!conversation) {
@@ -75,4 +76,47 @@ export class ConversationService {
 
     return otherParticipant.username;
   }
+
+  async getConversationImage({idCurrentUser,idConversation}:{idCurrentUser:string,idConversation:string}): Promise<string> {
+    const conversation = await this.conversationModel.findById(idConversation).exec();
+    if (!conversation) {
+      throw new NotFoundException(`Conversation with ID ${idConversation} not found`);
+    }
+
+    if (conversation.is_group) {
+      return 'profile.png';
+    }
+
+    const otherParticipantId = conversation.participants.find(participant => participant !== idCurrentUser);
+    if (!otherParticipantId) {
+      throw new NotFoundException('Other participant not found');
+    }
+
+    // Assuming you have a method to get the user by ID and retrieve their name
+    const otherParticipant = await this.userService.findOne(otherParticipantId.toString()); // Implement this method
+
+    return otherParticipant.pdp;
+  }
+
+  async getConversationsByUser(userId: string): Promise<any[]> {
+    const conversations = await this.conversationModel.find({ participants: userId }).exec();
+    
+    const conversationsWithDetails = await Promise.all(
+      conversations.map(async (conversation) => {
+        const name = await this.getConversationName({idCurrentUser:userId,idConversation:conversation._id});
+        // Simuler l'ajout d'une propriété `image`
+        const image =  await this.getConversationImage({idCurrentUser:userId,idConversation:conversation._id});
+        
+        return {
+          ...conversation.toObject(),
+          name,
+          image
+        };
+      })
+    );
+
+    return conversationsWithDetails;
+  }
+
+ 
 }

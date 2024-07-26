@@ -41,4 +41,9 @@ export declare class ConversationService {
         idCurrentUser: string;
         idConversation: string;
     }): Promise<string>;
+    getConversationImage({ idCurrentUser, idConversation }: {
+        idCurrentUser: string;
+        idConversation: string;
+    }): Promise<string>;
+    getConversationsByUser(userId: string): Promise<any[]>;
 }
