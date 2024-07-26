@@ -10,4 +10,5 @@ export declare class MessageController {
     findOne(id: string): Promise<Message>;
     update(id: string, updateMessageDto: UpdateMessageDto): Promise<Message>;
     remove(id: string): Promise<void>;
+    findMessagesByConv(idConversation: string): Promise<Message[]>;
 }

@@ -10,4 +10,8 @@ export declare class ConversationController {
     findOne(id: string): Promise<Conversation>;
     update(id: string, updateConversationDto: UpdateConversationDto): Promise<Conversation>;
     remove(id: string): Promise<void>;
+    checkPrivateConversationExists({ sender, receiver }: {
+        sender: string;
+        receiver: string;
+    }): Promise<any>;
 }

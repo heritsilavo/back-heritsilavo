@@ -34,4 +34,5 @@ export declare class MessageService {
     findOne(id: string): Promise<Message>;
     update(id: string, updateMessageDto: UpdateMessageDto): Promise<Message>;
     remove(id: string): Promise<void>;
+    getMessagesByConversation(conversationId: string): Promise<Message[]>;
 }

@@ -48,6 +48,13 @@ let ConversationService = class ConversationService {
             throw new common_1.NotFoundException(`Conversation with ID ${id} not found`);
         }
     }
+    async checkPrivateConversationExists(senderId, receiverId) {
+        const conversation = await this.conversationModel.findOne({
+            is_group: false,
+            participants: { $all: [senderId, receiverId] },
+        }).exec();
+        return conversation || false;
+    }
 };
 exports.ConversationService = ConversationService;
 exports.ConversationService = ConversationService = __decorate([

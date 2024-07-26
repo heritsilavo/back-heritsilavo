@@ -15,4 +15,7 @@ export declare class InvitationController {
     acceptInvitation(invitationId: string): Promise<{
         message: string;
     }>;
+    supprimerInvitation(invitationId: string): Promise<{
+        message: string;
+    }>;
 }

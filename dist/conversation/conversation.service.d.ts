@@ -34,4 +34,5 @@ export declare class ConversationService {
     findOne(id: string): Promise<Conversation>;
     update(id: string, updateConversationDto: UpdateConversationDto): Promise<Conversation>;
     remove(id: string): Promise<void>;
+    checkPrivateConversationExists(senderId: string, receiverId: string): Promise<any>;
 }

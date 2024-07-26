@@ -50,6 +50,19 @@ let InvitationController = class InvitationController {
             throw new common_1.HttpException('Could not accept invitation', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async supprimerInvitation(invitationId) {
+        try {
+            const invitation = await this.invitationService.findOne(invitationId);
+            if (!invitation) {
+                throw new common_1.HttpException('Invitation not found', common_1.HttpStatus.NOT_FOUND);
+            }
+            await this.invitationService.delete(invitationId);
+            return { message: 'Invitation supprimée' };
+        }
+        catch (error) {
+            throw new common_1.HttpException('Could not accept invitation', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 };
 exports.InvitationController = InvitationController;
 __decorate([
@@ -106,6 +119,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], InvitationController.prototype, "acceptInvitation", null);
+__decorate([
+    (0, common_1.Patch)('supprimer/:invitationId'),
+    __param(0, (0, common_1.Param)('invitationId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], InvitationController.prototype, "supprimerInvitation", null);
 exports.InvitationController = InvitationController = __decorate([
     (0, common_1.Controller)('invitations'),
     __metadata("design:paramtypes", [invitations_service_1.InvitationService, user_service_1.UserService])

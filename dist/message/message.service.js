@@ -48,6 +48,10 @@ let MessageService = class MessageService {
             throw new common_1.NotFoundException(`Message with ID ${id} not found`);
         }
     }
+    async getMessagesByConversation(conversationId) {
+        const messages = await this.messageModel.find({ conversation_id: conversationId }).sort({ timestamp: 1 }).exec();
+        return messages;
+    }
 };
 exports.MessageService = MessageService;
 exports.MessageService = MessageService = __decorate([

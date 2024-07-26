@@ -38,6 +38,9 @@ let ConversationController = class ConversationController {
     remove(id) {
         return this.conversationService.remove(id);
     }
+    checkPrivateConversationExists({ sender, receiver }) {
+        return this.conversationService.checkPrivateConversationExists(sender, receiver);
+    }
 };
 exports.ConversationController = ConversationController;
 __decorate([
@@ -91,6 +94,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ConversationController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('/checkPrivateConversationExists'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ConversationController.prototype, "checkPrivateConversationExists", null);
 exports.ConversationController = ConversationController = __decorate([
     (0, swagger_1.ApiTags)('conversations'),
     (0, common_1.Controller)('conversations'),

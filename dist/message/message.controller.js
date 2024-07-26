@@ -38,6 +38,9 @@ let MessageController = class MessageController {
     remove(id) {
         return this.messageService.remove(id);
     }
+    findMessagesByConv(idConversation) {
+        return this.messageService.getMessagesByConversation(idConversation);
+    }
 };
 exports.MessageController = MessageController;
 __decorate([
@@ -91,6 +94,15 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], MessageController.prototype, "remove", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get all messages by id conv' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return all messages.', type: [message_schema_1.Message] }),
+    (0, common_1.Get)('findMessagesByConv/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], MessageController.prototype, "findMessagesByConv", null);
 exports.MessageController = MessageController = __decorate([
     (0, swagger_1.ApiTags)('messages'),
     (0, common_1.Controller)('messages'),
