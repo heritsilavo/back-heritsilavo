@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const message_schema_1 = require("./schemas/message.schema");
+const user_service_1 = require("../user/user.service");
 let MessageService = class MessageService {
-    constructor(messageModel) {
+    constructor(messageModel, userService) {
         this.messageModel = messageModel;
+        this.userService = userService;
     }
     async create(createMessageDto) {
         const createdMessage = new this.messageModel(createMessageDto);
@@ -50,13 +52,20 @@ let MessageService = class MessageService {
     }
     async getMessagesByConversation(conversationId) {
         const messages = await this.messageModel.find({ conversation_id: conversationId }).sort({ timestamp: 1 }).exec();
-        return messages;
+        const messagesWithUsernames = await Promise.all(messages.map(async (message) => {
+            const user = await this.userService.findOne(message.sender_id.toString());
+            return {
+                ...message.toObject(),
+                username: user.username
+            };
+        }));
+        return messagesWithUsernames;
     }
 };
 exports.MessageService = MessageService;
 exports.MessageService = MessageService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(message_schema_1.Message.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model, user_service_1.UserService])
 ], MessageService);
 //# sourceMappingURL=message.service.js.map

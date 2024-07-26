@@ -4,10 +4,11 @@ import { Model } from 'mongoose';
 import { Message, MessageDocument } from './schemas/message.schema';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class MessageService {
-  constructor(@InjectModel(Message.name) private messageModel: Model<MessageDocument>) {}
+  constructor(@InjectModel(Message.name) private messageModel: Model<MessageDocument>,  private userService: UserService) {}
 
   async create(createMessageDto: CreateMessageDto): Promise<Message> {
     const createdMessage = new this.messageModel(createMessageDto);
@@ -41,9 +42,20 @@ export class MessageService {
     }
   }
 
-  async getMessagesByConversation(conversationId: string): Promise<Message[]> {
+  async getMessagesByConversation(conversationId: string): Promise<any[]> {
     const messages = await this.messageModel.find({ conversation_id: conversationId }).sort({ timestamp: 1 }).exec();
-    return messages;
+    
+    const messagesWithUsernames = await Promise.all(
+      messages.map(async (message) => {
+        const user = await this.userService.findOne(message.sender_id.toString());
+        return {
+          ...message.toObject(),
+          username: user.username
+        };
+      })
+    );
+
+    return messagesWithUsernames;
   }
   
 }

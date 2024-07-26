@@ -26,13 +26,15 @@ import { Model } from 'mongoose';
 import { Message, MessageDocument } from './schemas/message.schema';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { UserService } from 'src/user/user.service';
 export declare class MessageService {
     private messageModel;
-    constructor(messageModel: Model<MessageDocument>);
+    private userService;
+    constructor(messageModel: Model<MessageDocument>, userService: UserService);
     create(createMessageDto: CreateMessageDto): Promise<Message>;
     findAll(): Promise<Message[]>;
     findOne(id: string): Promise<Message>;
     update(id: string, updateMessageDto: UpdateMessageDto): Promise<Message>;
     remove(id: string): Promise<void>;
-    getMessagesByConversation(conversationId: string): Promise<Message[]>;
+    getMessagesByConversation(conversationId: string): Promise<any[]>;
 }
