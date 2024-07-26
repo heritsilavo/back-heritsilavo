@@ -61,6 +61,13 @@ let MessageService = class MessageService {
         }));
         return messagesWithUsernames;
     }
+    async getLastMessage(conversationId) {
+        const lastMessage = await this.messageModel
+            .findOne({ conversation_id: conversationId })
+            .sort({ timestamp: -1 })
+            .exec();
+        return lastMessage;
+    }
 };
 exports.MessageService = MessageService;
 exports.MessageService = MessageService = __decorate([

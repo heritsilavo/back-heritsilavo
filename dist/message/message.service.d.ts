@@ -37,4 +37,5 @@ export declare class MessageService {
     update(id: string, updateMessageDto: UpdateMessageDto): Promise<Message>;
     remove(id: string): Promise<void>;
     getMessagesByConversation(conversationId: string): Promise<any[]>;
+    getLastMessage(conversationId: string): Promise<Message | null>;
 }

@@ -27,10 +27,12 @@ import { Conversation, ConversationDocument } from 'src/conversation/schemas/con
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 import { UserService } from 'src/user/user.service';
+import { MessageService } from 'src/message/message.service';
 export declare class ConversationService {
     private conversationModel;
     private readonly userService;
-    constructor(conversationModel: Model<ConversationDocument>, userService: UserService);
+    private readonly messageService;
+    constructor(conversationModel: Model<ConversationDocument>, userService: UserService, messageService: MessageService);
     create(createConversationDto: CreateConversationDto): Promise<Conversation>;
     findAll(): Promise<Conversation[]>;
     findOne(id: string): Promise<Conversation>;
@@ -46,4 +48,5 @@ export declare class ConversationService {
         idConversation: string;
     }): Promise<string>;
     getConversationsByUser(userId: string): Promise<any[]>;
+    formatDate(date: Date): string;
 }

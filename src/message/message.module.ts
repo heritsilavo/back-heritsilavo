@@ -9,5 +9,6 @@ import { UserModule } from 'src/user/user.module';
   imports: [MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema }]),UserModule],
   controllers: [MessageController],
   providers: [MessageService],
+  exports:[MessageService]
 })
 export class MessageModule {}

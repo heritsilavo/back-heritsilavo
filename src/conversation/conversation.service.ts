@@ -5,11 +5,13 @@ import { Conversation, ConversationDocument } from 'src/conversation/schemas/con
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 import { UserService } from 'src/user/user.service';
+import { MessageService } from 'src/message/message.service';
 
 @Injectable()
 export class ConversationService {
   constructor(@InjectModel(Conversation.name) private conversationModel: Model<ConversationDocument>,
   private readonly userService: UserService,
+  private readonly messageService: MessageService
 ) {}
 
   async create(createConversationDto: CreateConversationDto): Promise<Conversation> {
@@ -103,14 +105,16 @@ export class ConversationService {
     
     const conversationsWithDetails = await Promise.all(
       conversations.map(async (conversation) => {
-        const name = await this.getConversationName({idCurrentUser:userId,idConversation:conversation._id});
-        // Simuler l'ajout d'une propriété `image`
-        const image =  await this.getConversationImage({idCurrentUser:userId,idConversation:conversation._id});
+        const name = await this.getConversationName({idCurrentUser: userId, idConversation: conversation._id});
+        const image = await this.getConversationImage({idCurrentUser: userId, idConversation: conversation._id});
+        const lastMessage = await this.messageService.getLastMessage(conversation._id);
         
         return {
           ...conversation.toObject(),
           name,
-          image
+          image,
+          lastMessage: lastMessage ? lastMessage.content : "",
+          lastMessageTime: lastMessage ? this.formatDate(lastMessage.timestamp) : ""
         };
       })
     );
@@ -118,5 +122,19 @@ export class ConversationService {
     return conversationsWithDetails;
   }
 
- 
+
+  formatDate(date: Date): string {
+    // Array des noms des jours en français
+    const jours: string[] = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+    
+    // Obtenir le jour de la semaine, le jour du mois, l'heure et la minute
+    const jourSemaine: string = jours[date.getDay()];
+    const jourMois: string = date.getDate().toString().padStart(2, '0');
+    const mois: string = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois sont de 0 (Janvier) à 11 (Décembre)
+    const heures: string = date.getHours().toString().padStart(2, '0');
+    const minutes: string = date.getMinutes().toString().padStart(2, '0');
+
+    // Retourner la chaîne formatée
+    return `${mois} ${jourSemaine} ${jourMois},${heures}:${minutes}`;
+}
 }

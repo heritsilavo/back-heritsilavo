@@ -18,10 +18,12 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const conversation_schema_1 = require("./schemas/conversation.schema");
 const user_service_1 = require("../user/user.service");
+const message_service_1 = require("../message/message.service");
 let ConversationService = class ConversationService {
-    constructor(conversationModel, userService) {
+    constructor(conversationModel, userService, messageService) {
         this.conversationModel = conversationModel;
         this.userService = userService;
+        this.messageService = messageService;
     }
     async create(createConversationDto) {
         const createdConversation = new this.conversationModel(createConversationDto);
@@ -92,13 +94,25 @@ let ConversationService = class ConversationService {
         const conversationsWithDetails = await Promise.all(conversations.map(async (conversation) => {
             const name = await this.getConversationName({ idCurrentUser: userId, idConversation: conversation._id });
             const image = await this.getConversationImage({ idCurrentUser: userId, idConversation: conversation._id });
+            const lastMessage = await this.messageService.getLastMessage(conversation._id);
             return {
                 ...conversation.toObject(),
                 name,
-                image
+                image,
+                lastMessage: lastMessage ? lastMessage.content : "",
+                lastMessageTime: lastMessage ? this.formatDate(lastMessage.timestamp) : ""
             };
         }));
         return conversationsWithDetails;
+    }
+    formatDate(date) {
+        const jours = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+        const jourSemaine = jours[date.getDay()];
+        const jourMois = date.getDate().toString().padStart(2, '0');
+        const mois = (date.getMonth() + 1).toString().padStart(2, '0');
+        const heures = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${mois} ${jourSemaine} ${jourMois},${heures}:${minutes}`;
     }
 };
 exports.ConversationService = ConversationService;
@@ -106,6 +120,7 @@ exports.ConversationService = ConversationService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(conversation_schema_1.Conversation.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        user_service_1.UserService])
+        user_service_1.UserService,
+        message_service_1.MessageService])
 ], ConversationService);
 //# sourceMappingURL=conversation.service.js.map

@@ -21,6 +21,7 @@ exports.MessageModule = MessageModule = __decorate([
         imports: [mongoose_1.MongooseModule.forFeature([{ name: message_schema_1.Message.name, schema: message_schema_1.MessageSchema }]), user_module_1.UserModule],
         controllers: [message_controller_1.MessageController],
         providers: [message_service_1.MessageService],
+        exports: [message_service_1.MessageService]
     })
 ], MessageModule);
 //# sourceMappingURL=message.module.js.map
