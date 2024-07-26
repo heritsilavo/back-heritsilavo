@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const invitations_service_1 = require("./invitations.service");
 const create_invitation_dto_1 = require("./dto/create-invitation.dto");
 const swagger_1 = require("@nestjs/swagger");
+const user_service_1 = require("../user/user.service");
 let InvitationController = class InvitationController {
-    constructor(invitationService) {
+    constructor(invitationService, usersService) {
         this.invitationService = invitationService;
+        this.usersService = usersService;
     }
     async create(createInvitationDto) {
         return this.invitationService.create(createInvitationDto);
@@ -32,6 +34,21 @@ let InvitationController = class InvitationController {
     }
     async updateStatus(invitationId, body) {
         return this.invitationService.updateStatus(invitationId, body.status);
+    }
+    async acceptInvitation(invitationId) {
+        try {
+            const invitation = await this.invitationService.findOne(invitationId);
+            if (!invitation) {
+                throw new common_1.HttpException('Invitation not found', common_1.HttpStatus.NOT_FOUND);
+            }
+            await this.usersService.addFriend(invitation.senderId, invitation.receiverId);
+            await this.usersService.addFriend(invitation.receiverId, invitation.senderId);
+            await this.invitationService.delete(invitationId);
+            return { message: 'Invitation accepted' };
+        }
+        catch (error) {
+            throw new common_1.HttpException('Could not accept invitation', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 };
 exports.InvitationController = InvitationController;
@@ -82,8 +99,15 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], InvitationController.prototype, "updateStatus", null);
+__decorate([
+    (0, common_1.Patch)('accept/:invitationId'),
+    __param(0, (0, common_1.Param)('invitationId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], InvitationController.prototype, "acceptInvitation", null);
 exports.InvitationController = InvitationController = __decorate([
     (0, common_1.Controller)('invitations'),
-    __metadata("design:paramtypes", [invitations_service_1.InvitationService])
+    __metadata("design:paramtypes", [invitations_service_1.InvitationService, user_service_1.UserService])
 ], InvitationController);
 //# sourceMappingURL=invitations.controller.js.map

@@ -34,4 +34,6 @@ export declare class InvitationService {
     findSentInvitations(userId: string): Promise<Invitation[]>;
     findReceivedInvitations(userId: string): Promise<any[]>;
     updateStatus(invitationId: string, status: string): Promise<Invitation>;
+    delete(invitationId: string): Promise<void>;
+    findOne(invitationId: string): Promise<Invitation>;
 }

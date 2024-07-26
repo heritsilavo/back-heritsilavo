@@ -63,23 +63,6 @@ export class UserService {
     return this.UserModel.find({ _id: { $in: friendIds } }).exec();
   }
 
-  async addFriend(userId: string, friendId: string): Promise<User> {
-    // Trouver l'utilisateur
-    const user = await this.UserModel.findById(userId).exec();
-    if (!user) {
-      throw new Error('Utilisateur non trouvé');
-    }
-
-    // Vérifier si l'ami est déjà dans la liste
-    if (user.amis.includes(friendId)) {
-      throw new Error('L\'utilisateur est déjà un ami');
-    }
-
-    // Ajouter l'ami à la liste des amis
-    user.amis.push(friendId);
-    return user.save();
-  }
-
   // Méthode pour récupérer les utilisateurs qui ne sont pas amis
   async findNonFriends(userId: string): Promise<User[]> {
     // Trouver l'utilisateur par ID
@@ -96,5 +79,16 @@ export class UserService {
   // Méthode pour récupérer les utilisateurs par leurs IDs
   async findUsersByIds(userIds: string[]): Promise<any> {
     return this.UserModel.find({ _id: { $in: userIds } }).exec();
+  }
+
+  async addFriend(userId: string, friendId: string): Promise<User> {
+    const user = await this.UserModel.findById(userId).exec();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    if (!user.amis.includes(friendId)) {
+      user.amis.push(friendId);
+    }
+    return user.save();
   }
 }

@@ -1,13 +1,14 @@
 // src/invitations/invitation.controller.ts
-import { Controller, Post, Get, Param, Body, Patch } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body, Patch, HttpException, HttpStatus } from '@nestjs/common';
 import { InvitationService } from './invitations.service';
 import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Invitation } from './schemas/invitation.schema';
+import { UserService } from 'src/user/user.service';
 
 @Controller('invitations')
 export class InvitationController {
-  constructor(private readonly invitationService: InvitationService) {}
+  constructor(private readonly invitationService: InvitationService, private readonly usersService: UserService,) {}
 
   @Post()
   @ApiOperation({ summary: 'Créer une nouvelle invitation' })
@@ -48,5 +49,32 @@ export class InvitationController {
     @Body() body: { status: string }
   ): Promise<Invitation> {
     return this.invitationService.updateStatus(invitationId, body.status);
+  }
+
+
+
+
+
+
+  // Route pour accepter une invitation
+  @Patch('accept/:invitationId')
+  async acceptInvitation(@Param('invitationId') invitationId: string) {
+    try {
+      const invitation = await this.invitationService.findOne(invitationId);
+      if (!invitation) {
+        throw new HttpException('Invitation not found', HttpStatus.NOT_FOUND);
+      }
+
+      // Mettre à jour la liste d'amis du sender et du receiver
+      await this.usersService.addFriend(invitation.senderId, invitation.receiverId);
+      await this.usersService.addFriend(invitation.receiverId, invitation.senderId);
+
+      // Supprimer l'invitation
+      await this.invitationService.delete(invitationId);
+
+      return { message: 'Invitation accepted' };
+    } catch (error) {
+      throw new HttpException('Could not accept invitation', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

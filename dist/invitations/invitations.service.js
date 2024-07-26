@@ -53,6 +53,12 @@ let InvitationService = class InvitationService {
     async updateStatus(invitationId, status) {
         return this.invitationModel.findByIdAndUpdate(invitationId, { status }, { new: true }).exec();
     }
+    async delete(invitationId) {
+        await this.invitationModel.findByIdAndDelete(invitationId).exec();
+    }
+    async findOne(invitationId) {
+        return this.invitationModel.findById(invitationId).exec();
+    }
 };
 exports.InvitationService = InvitationService;
 exports.InvitationService = InvitationService = __decorate([

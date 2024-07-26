@@ -65,4 +65,13 @@ export class InvitationService {
       { new: true }
     ).exec();
   }
+
+  async delete(invitationId: string): Promise<void> {
+    await this.invitationModel.findByIdAndDelete(invitationId).exec();
+  }
+
+  async findOne(invitationId: string): Promise<Invitation> {
+    return this.invitationModel.findById(invitationId).exec();
+  }
+
 }

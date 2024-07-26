@@ -38,7 +38,7 @@ export declare class UserService {
     update(id: string, updateUserDto: CreateUserDto): Promise<User>;
     delete(id: string): Promise<User>;
     getFriends(userId: string): Promise<User[]>;
-    addFriend(userId: string, friendId: string): Promise<User>;
     findNonFriends(userId: string): Promise<User[]>;
     findUsersByIds(userIds: string[]): Promise<any>;
+    addFriend(userId: string, friendId: string): Promise<User>;
 }

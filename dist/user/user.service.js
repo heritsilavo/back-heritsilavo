@@ -56,17 +56,6 @@ let UserService = class UserService {
         const friendIds = user.amis;
         return this.UserModel.find({ _id: { $in: friendIds } }).exec();
     }
-    async addFriend(userId, friendId) {
-        const user = await this.UserModel.findById(userId).exec();
-        if (!user) {
-            throw new Error('Utilisateur non trouvé');
-        }
-        if (user.amis.includes(friendId)) {
-            throw new Error('L\'utilisateur est déjà un ami');
-        }
-        user.amis.push(friendId);
-        return user.save();
-    }
     async findNonFriends(userId) {
         const user = await this.UserModel.findById(userId).exec();
         if (!user) {
@@ -77,6 +66,16 @@ let UserService = class UserService {
     }
     async findUsersByIds(userIds) {
         return this.UserModel.find({ _id: { $in: userIds } }).exec();
+    }
+    async addFriend(userId, friendId) {
+        const user = await this.UserModel.findById(userId).exec();
+        if (!user) {
+            throw new Error('User not found');
+        }
+        if (!user.amis.includes(friendId)) {
+            user.amis.push(friendId);
+        }
+        return user.save();
     }
 };
 exports.UserService = UserService;
