@@ -117,7 +117,7 @@ export class ConversationService {
           name,
           image,
           lastMessage: lastMessage ? lastMessage.content : "",
-          lastMessageTime: lastMessage ? this.formatDate(lastMessage.timestamp) : ""
+          lastMessageTime: lastMessage ? lastMessage.timestamp.toLocaleTimeString() : ""
         };
       })
     );
@@ -127,20 +127,15 @@ export class ConversationService {
 
 
   formatDate(date: Date): string {
-    // Array des noms des jours en français
-    const jours: string[] = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
-    
-    // Convertir la date UTC en locale pour obtenir les valeurs correctes
-    const dateLocale = new Date(date.toLocaleString("fr-FR", { timeZone: "Europe/Paris" }));
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // Obtenir les parties de la date
-    const jourSemaine: string = jours[dateLocale.getDay()];
-    const jourMois: string = dateLocale.getDate().toString().padStart(2, '0');
-    const heures: string = dateLocale.getHours().toString().padStart(2, '0');
-    const minutes: string = dateLocale.getMinutes().toString().padStart(2, '0');
-    const mois: string = (dateLocale.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    // Retourner la chaîne formatée
-    return `${mois} ${jourSemaine} ${jourMois},${heures}:${minutes}`;
+    return `${day} ${month} ${year},${hours}:${minutes}`;
   }
 }
