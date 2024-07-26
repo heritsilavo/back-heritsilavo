@@ -50,4 +50,10 @@ export class ConversationController {
   remove(@Param('id') id: string): Promise<void> {
     return this.conversationService.remove(id);
   }
+
+  //checkPrivateConversationExists
+  @Post('/checkPrivateConversationExists')
+  checkPrivateConversationExists(@Body() {sender,receiver} : {sender:string,receiver:string}): Promise<Boolean> {
+    return this.conversationService.checkPrivateConversationExists(sender,receiver);
+  }
 }

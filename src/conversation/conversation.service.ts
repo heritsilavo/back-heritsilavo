@@ -40,4 +40,15 @@ export class ConversationService {
       throw new NotFoundException(`Conversation with ID ${id} not found`);
     }
   }
+
+  async checkPrivateConversationExists(senderId: string, receiverId: string): Promise<boolean> {
+    // Rechercher une conversation non-groupe avec les participants spécifiés
+    const conversation = await this.conversationModel.findOne({
+      is_group: false,
+      participants: { $all: [senderId, receiverId] },
+    }).exec();
+
+    // Retourne true si une telle conversation est trouvée, sinon false
+    return !!conversation;
+  }
 }

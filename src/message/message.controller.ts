@@ -53,7 +53,7 @@ export class MessageController {
 
   @ApiOperation({ summary: 'Get all messages by id conv' })
   @ApiResponse({ status: 200, description: 'Return all messages.', type: [Message] })
-  @Get(':id')
+  @Get('findMessagesByConv/:id')
   findMessagesByConv(@Param('id') idConversation: string): Promise<Message[]> {
     return this.messageService.getMessagesByConversation(idConversation);
   }

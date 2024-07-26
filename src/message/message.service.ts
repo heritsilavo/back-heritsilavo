@@ -44,9 +44,8 @@ export class MessageService {
   async getMessagesByConversation(conversationId: string): Promise<Message[]> {
     // Récupérer les messages triés par timestamp (les plus récents en dernier)
     const messages = await this.messageModel.find({
-      where: { conversationId },
-      order: { timestamp: 'ASC' }, // Tri croissant pour avoir les plus récents en dernier
-    });
+      conversationId: conversationId,
+    }).sort({ timestamp: 1 }).exec(); // Tri croissant pour avoir les plus récents en dernier
 
     return messages;
   }
