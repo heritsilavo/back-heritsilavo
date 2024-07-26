@@ -41,6 +41,9 @@ let ConversationController = class ConversationController {
     checkPrivateConversationExists({ sender, receiver }) {
         return this.conversationService.checkPrivateConversationExists(sender, receiver);
     }
+    getConversationName(idCurrentUser, idConversation) {
+        return this.conversationService.getConversationName({ idCurrentUser: idCurrentUser, idConversation: idConversation });
+    }
 };
 exports.ConversationController = ConversationController;
 __decorate([
@@ -101,6 +104,17 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConversationController.prototype, "checkPrivateConversationExists", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get a conversation by ID' }),
+    (0, swagger_1.ApiParam)({ name: 'idCurrentUser', description: '' }),
+    (0, swagger_1.ApiParam)({ name: 'idConversation', description: '' }),
+    (0, common_1.Get)('getConversationName/:idCurrentUser/:idConversation'),
+    __param(0, (0, common_1.Param)('idCurrentUser')),
+    __param(1, (0, common_1.Param)('idConversation')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ConversationController.prototype, "getConversationName", null);
 exports.ConversationController = ConversationController = __decorate([
     (0, swagger_1.ApiTags)('conversations'),
     (0, common_1.Controller)('conversations'),

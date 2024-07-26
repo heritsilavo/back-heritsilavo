@@ -14,4 +14,5 @@ export declare class ConversationController {
         sender: string;
         receiver: string;
     }): Promise<any>;
+    getConversationName(idCurrentUser: string, idConversation: string): Promise<String>;
 }

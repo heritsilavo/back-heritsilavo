@@ -56,4 +56,12 @@ export class ConversationController {
   checkPrivateConversationExists(@Body() {sender,receiver} : {sender:string,receiver:string}): Promise<any> {
     return this.conversationService.checkPrivateConversationExists(sender,receiver);
   }
+
+  @ApiOperation({ summary: 'Get a conversation by ID' })
+  @ApiParam({ name: 'idCurrentUser', description: '' })
+  @ApiParam({ name: 'idConversation', description: '' })
+  @Get('getConversationName/:idCurrentUser/:idConversation')
+  getConversationName(@Param('idCurrentUser') idCurrentUser: string, @Param('idConversation') idConversation: string): Promise<String> {
+    return this.conversationService.getConversationName({idCurrentUser:idCurrentUser,idConversation:idConversation});
+  }
 }

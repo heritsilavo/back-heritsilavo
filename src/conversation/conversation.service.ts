@@ -4,10 +4,13 @@ import { Model } from 'mongoose';
 import { Conversation, ConversationDocument } from 'src/conversation/schemas/conversation.schema';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ConversationService {
-  constructor(@InjectModel(Conversation.name) private conversationModel: Model<ConversationDocument>) {}
+  constructor(@InjectModel(Conversation.name) private conversationModel: Model<ConversationDocument>,
+  private readonly userService: UserService,
+) {}
 
   async create(createConversationDto: CreateConversationDto): Promise<Conversation> {
     const createdConversation = new this.conversationModel(createConversationDto);
@@ -50,5 +53,26 @@ export class ConversationService {
 
     // Retourne true si une telle conversation est trouvée, sinon false
     return conversation || false;
+  }
+
+  async getConversationName({idCurrentUser,idConversation}:{idCurrentUser:string,idConversation:string}): Promise<string> {
+    const conversation = await this.conversationModel.findById(idConversation).exec();
+    if (!conversation) {
+      throw new NotFoundException(`Conversation with ID ${idConversation} not found`);
+    }
+
+    if (conversation.is_group) {
+      return conversation.name || 'Unnamed';
+    }
+
+    const otherParticipantId = conversation.participants.find(participant => participant !== idCurrentUser);
+    if (!otherParticipantId) {
+      throw new NotFoundException('Other participant not found');
+    }
+
+    // Assuming you have a method to get the user by ID and retrieve their name
+    const otherParticipant = await this.userService.findOne(otherParticipantId.toString()); // Implement this method
+
+    return otherParticipant.username;
   }
 }

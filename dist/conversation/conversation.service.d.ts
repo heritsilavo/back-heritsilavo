@@ -26,13 +26,19 @@ import { Model } from 'mongoose';
 import { Conversation, ConversationDocument } from 'src/conversation/schemas/conversation.schema';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
+import { UserService } from 'src/user/user.service';
 export declare class ConversationService {
     private conversationModel;
-    constructor(conversationModel: Model<ConversationDocument>);
+    private readonly userService;
+    constructor(conversationModel: Model<ConversationDocument>, userService: UserService);
     create(createConversationDto: CreateConversationDto): Promise<Conversation>;
     findAll(): Promise<Conversation[]>;
     findOne(id: string): Promise<Conversation>;
     update(id: string, updateConversationDto: UpdateConversationDto): Promise<Conversation>;
     remove(id: string): Promise<void>;
     checkPrivateConversationExists(senderId: string, receiverId: string): Promise<any>;
+    getConversationName({ idCurrentUser, idConversation }: {
+        idCurrentUser: string;
+        idConversation: string;
+    }): Promise<string>;
 }

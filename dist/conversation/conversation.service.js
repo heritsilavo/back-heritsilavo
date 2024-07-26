@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const conversation_schema_1 = require("./schemas/conversation.schema");
+const user_service_1 = require("../user/user.service");
 let ConversationService = class ConversationService {
-    constructor(conversationModel) {
+    constructor(conversationModel, userService) {
         this.conversationModel = conversationModel;
+        this.userService = userService;
     }
     async create(createConversationDto) {
         const createdConversation = new this.conversationModel(createConversationDto);
@@ -55,11 +57,27 @@ let ConversationService = class ConversationService {
         }).exec();
         return conversation || false;
     }
+    async getConversationName({ idCurrentUser, idConversation }) {
+        const conversation = await this.conversationModel.findById(idConversation).exec();
+        if (!conversation) {
+            throw new common_1.NotFoundException(`Conversation with ID ${idConversation} not found`);
+        }
+        if (conversation.is_group) {
+            return conversation.name || 'Unnamed';
+        }
+        const otherParticipantId = conversation.participants.find(participant => participant !== idCurrentUser);
+        if (!otherParticipantId) {
+            throw new common_1.NotFoundException('Other participant not found');
+        }
+        const otherParticipant = await this.userService.findOne(otherParticipantId.toString());
+        return otherParticipant.username;
+    }
 };
 exports.ConversationService = ConversationService;
 exports.ConversationService = ConversationService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(conversation_schema_1.Conversation.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        user_service_1.UserService])
 ], ConversationService);
 //# sourceMappingURL=conversation.service.js.map

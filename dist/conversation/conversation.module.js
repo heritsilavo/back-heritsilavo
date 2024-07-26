@@ -12,12 +12,13 @@ const mongoose_1 = require("@nestjs/mongoose");
 const conversation_service_1 = require("./conversation.service");
 const conversation_controller_1 = require("./conversation.controller");
 const conversation_schema_1 = require("./schemas/conversation.schema");
+const user_module_1 = require("../user/user.module");
 let ConversationModule = class ConversationModule {
 };
 exports.ConversationModule = ConversationModule;
 exports.ConversationModule = ConversationModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: conversation_schema_1.Conversation.name, schema: conversation_schema_1.ConversationSchema }])],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: conversation_schema_1.Conversation.name, schema: conversation_schema_1.ConversationSchema }]), user_module_1.UserModule],
         controllers: [conversation_controller_1.ConversationController],
         providers: [conversation_service_1.ConversationService],
     })
