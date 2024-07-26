@@ -50,4 +50,11 @@ export class MessageController {
   remove(@Param('id') id: string): Promise<void> {
     return this.messageService.remove(id);
   }
+
+  @ApiOperation({ summary: 'Get all messages by id conv' })
+  @ApiResponse({ status: 200, description: 'Return all messages.', type: [Message] })
+  @Get(':id')
+  findMessagesByConv(@Param('id') idConversation: string): Promise<Message[]> {
+    return this.messageService.getMessagesByConversation(idConversation);
+  }
 }
