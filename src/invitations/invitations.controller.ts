@@ -51,11 +51,6 @@ export class InvitationController {
     return this.invitationService.updateStatus(invitationId, body.status);
   }
 
-
-
-
-
-
   // Route pour accepter une invitation
   @Patch('accept/:invitationId')
   async acceptInvitation(@Param('invitationId') invitationId: string) {
@@ -73,6 +68,25 @@ export class InvitationController {
       await this.invitationService.delete(invitationId);
 
       return { message: 'Invitation accepted' };
+    } catch (error) {
+      throw new HttpException('Could not accept invitation', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
+  // Route pour accepter une invitation
+  @Patch('supprimer/:invitationId')
+  async supprimerInvitation(@Param('invitationId') invitationId: string) {
+    try {
+      const invitation = await this.invitationService.findOne(invitationId);
+      if (!invitation) {
+        throw new HttpException('Invitation not found', HttpStatus.NOT_FOUND);
+      }
+
+      // Supprimer l'invitation
+      await this.invitationService.delete(invitationId);
+
+      return { message: 'Invitation supprimée' };
     } catch (error) {
       throw new HttpException('Could not accept invitation', HttpStatus.INTERNAL_SERVER_ERROR);
     }
