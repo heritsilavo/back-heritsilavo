@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User,UserDocument } from './schemas/user.shemas';
@@ -78,5 +78,18 @@ export class UserService {
     // Ajouter l'ami à la liste des amis
     user.amis.push(friendId);
     return user.save();
+  }
+
+  // Méthode pour récupérer les utilisateurs qui ne sont pas amis
+  async findNonFriends(userId: string): Promise<User[]> {
+    // Trouver l'utilisateur par ID
+    const user = await this.UserModel.findById(userId).exec();
+    if (!user) {
+      throw new NotFoundException('Utilisateur non trouvé');
+    }
+
+    // Trouver tous les utilisateurs qui ne sont pas amis avec l'utilisateur donné
+    const allUsers = await this.UserModel.find({ _id: { $ne: userId } }).exec();
+    return allUsers.filter(u => !user.amis.includes(u._id.toString()));
   }
 }

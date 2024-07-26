@@ -17,4 +17,5 @@ export declare class UserController {
     addFriend(userId: string, body: {
         friendId: string;
     }): Promise<User>;
+    findNonFriends(id: string): Promise<User[]>;
 }

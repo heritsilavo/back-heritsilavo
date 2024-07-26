@@ -23,21 +23,13 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { User, UserDocument } from './schemas/user.shemas';
-import { CreateUserDto } from './dto/user.dto';
-export declare class UserService {
-    private UserModel;
-    constructor(UserModel: Model<UserDocument>);
-    login(infos: {
-        username: string;
-        mdp: string;
-    }): Promise<any>;
-    create(createUserDto: CreateUserDto): Promise<User>;
-    findAll(): Promise<User[]>;
-    findOne(id: string): Promise<User>;
-    update(id: string, updateUserDto: CreateUserDto): Promise<User>;
-    delete(id: string): Promise<User>;
-    getFriends(userId: string): Promise<User[]>;
-    addFriend(userId: string, friendId: string): Promise<User>;
-    findNonFriends(userId: string): Promise<User[]>;
+import { Invitation, InvitationDocument } from './schemas/invitation.schema';
+import { CreateInvitationDto } from './dto/create-invitation.dto';
+export declare class InvitationService {
+    private invitationModel;
+    constructor(invitationModel: Model<InvitationDocument>);
+    create(createInvitationDto: CreateInvitationDto): Promise<Invitation>;
+    findSentInvitations(userId: string): Promise<Invitation[]>;
+    findReceivedInvitations(userId: string): Promise<Invitation[]>;
+    updateStatus(invitationId: string, status: string): Promise<Invitation>;
 }

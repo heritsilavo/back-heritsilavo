@@ -89,4 +89,11 @@ export class UserController {
   ): Promise<User> {
     return this.UserService.addFriend(userId, body.friendId);
   }
+
+  @Get(':id/non-friends')
+  @ApiOperation({ summary: 'Récupérer la liste des utilisateurs qui ne sont pas amis avec un utilisateur' })
+  @ApiResponse({ status: 200, description: 'Liste des non-amis récupérée avec succès' })
+  async findNonFriends(@Param('id') id: string): Promise<User[]> {
+    return this.UserService.findNonFriends(id);
+  }
 }

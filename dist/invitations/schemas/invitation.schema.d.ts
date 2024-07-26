@@ -22,22 +22,15 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
-import { User, UserDocument } from './schemas/user.shemas';
-import { CreateUserDto } from './dto/user.dto';
-export declare class UserService {
-    private UserModel;
-    constructor(UserModel: Model<UserDocument>);
-    login(infos: {
-        username: string;
-        mdp: string;
-    }): Promise<any>;
-    create(createUserDto: CreateUserDto): Promise<User>;
-    findAll(): Promise<User[]>;
-    findOne(id: string): Promise<User>;
-    update(id: string, updateUserDto: CreateUserDto): Promise<User>;
-    delete(id: string): Promise<User>;
-    getFriends(userId: string): Promise<User[]>;
-    addFriend(userId: string, friendId: string): Promise<User>;
-    findNonFriends(userId: string): Promise<User[]>;
+import { Document } from 'mongoose';
+export type InvitationDocument = Document & Invitation;
+export declare class Invitation {
+    senderId: string;
+    receiverId: string;
+    status: string;
 }
+export declare const InvitationSchema: import("mongoose").Schema<Invitation, import("mongoose").Model<Invitation, any, any, any, Document<unknown, any, Invitation> & Invitation & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Invitation, Document<unknown, {}, import("mongoose").FlatRecord<Invitation>> & import("mongoose").FlatRecord<Invitation> & {
+    _id: import("mongoose").Types.ObjectId;
+}>;

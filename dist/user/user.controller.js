@@ -45,6 +45,9 @@ let UserController = class UserController {
     async addFriend(userId, body) {
         return this.UserService.addFriend(userId, body.friendId);
     }
+    async findNonFriends(id) {
+        return this.UserService.findNonFriends(id);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -137,6 +140,15 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "addFriend", null);
+__decorate([
+    (0, common_1.Get)(':id/non-friends'),
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer la liste des utilisateurs qui ne sont pas amis avec un utilisateur' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Liste des non-amis récupérée avec succès' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "findNonFriends", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('Users'),
     __metadata("design:paramtypes", [user_service_1.UserService])

@@ -67,6 +67,14 @@ let UserService = class UserService {
         user.amis.push(friendId);
         return user.save();
     }
+    async findNonFriends(userId) {
+        const user = await this.UserModel.findById(userId).exec();
+        if (!user) {
+            throw new common_1.NotFoundException('Utilisateur non trouvé');
+        }
+        const allUsers = await this.UserModel.find({ _id: { $ne: userId } }).exec();
+        return allUsers.filter(u => !user.amis.includes(u._id.toString()));
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
