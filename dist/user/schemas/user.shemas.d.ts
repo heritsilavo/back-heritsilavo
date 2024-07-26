@@ -27,6 +27,8 @@ export type UserDocument = Document & User;
 export declare class User {
     username: string;
     mdp: string;
+    pdp?: string;
+    amis: string[];
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User> & User & {
     _id: import("mongoose").Types.ObjectId;

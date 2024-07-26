@@ -48,4 +48,35 @@ export class UserService {
   async delete(id: string): Promise<User> {
     return this.UserModel.findByIdAndDelete(id).exec()
   }
+
+   // Méthode pour récupérer les amis d'un utilisateur
+   async getFriends(userId: string): Promise<User[]> {
+    const user = await this.UserModel.findById(userId).exec();
+    if (!user) {
+      throw new Error('Utilisateur non trouvé');
+    }
+
+    // Récupérer les IDs des amis
+    const friendIds = user.amis;
+
+    // Récupérer les détails des amis
+    return this.UserModel.find({ _id: { $in: friendIds } }).exec();
+  }
+
+  async addFriend(userId: string, friendId: string): Promise<User> {
+    // Trouver l'utilisateur
+    const user = await this.UserModel.findById(userId).exec();
+    if (!user) {
+      throw new Error('Utilisateur non trouvé');
+    }
+
+    // Vérifier si l'ami est déjà dans la liste
+    if (user.amis.includes(friendId)) {
+      throw new Error('L\'utilisateur est déjà un ami');
+    }
+
+    // Ajouter l'ami à la liste des amis
+    user.amis.push(friendId);
+    return user.save();
+  }
 }

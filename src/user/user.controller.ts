@@ -62,4 +62,31 @@ export class UserController {
   async delete(@Param('id') id: string): Promise<User> {
     return this.UserService.delete(id);
   }
+
+  //Get liste amis
+  @Get(':id/friends')
+  @ApiOperation({ summary: 'Récupérer la liste des amis d\'un utilisateur' })
+  @ApiResponse({ status: 200, description: 'Liste des amis récupérée avec succès' })
+  async getFriends(@Param('id') id: string): Promise<User[]> {
+    return this.UserService.getFriends(id);
+  }
+
+  @Post(':id/friends')
+  @ApiOperation({ summary: 'Ajouter un ami à un utilisateur' })
+  @ApiResponse({ status: 200, description: 'Ami ajouté avec succès' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        friendId: { type: 'string' },
+      },
+      required: ['friendId'],
+    },
+  })
+  async addFriend(
+    @Param('id') userId: string,
+    @Body() body: { friendId: string }
+  ): Promise<User> {
+    return this.UserService.addFriend(userId, body.friendId);
+  }
 }

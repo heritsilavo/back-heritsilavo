@@ -39,6 +39,12 @@ let UserController = class UserController {
     async delete(id) {
         return this.UserService.delete(id);
     }
+    async getFriends(id) {
+        return this.UserService.getFriends(id);
+    }
+    async addFriend(userId, body) {
+        return this.UserService.addFriend(userId, body.friendId);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -103,6 +109,34 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "delete", null);
+__decorate([
+    (0, common_1.Get)(':id/friends'),
+    (0, swagger_1.ApiOperation)({ summary: 'Récupérer la liste des amis d\'un utilisateur' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Liste des amis récupérée avec succès' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getFriends", null);
+__decorate([
+    (0, common_1.Post)(':id/friends'),
+    (0, swagger_1.ApiOperation)({ summary: 'Ajouter un ami à un utilisateur' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Ami ajouté avec succès' }),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: 'object',
+            properties: {
+                friendId: { type: 'string' },
+            },
+            required: ['friendId'],
+        },
+    }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "addFriend", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('Users'),
     __metadata("design:paramtypes", [user_service_1.UserService])

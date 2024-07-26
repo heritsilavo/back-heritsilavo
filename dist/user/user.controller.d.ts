@@ -13,4 +13,8 @@ export declare class UserController {
     findOne(id: string): Promise<User>;
     update(id: string, updateUserDto: CreateUserDto): Promise<User>;
     delete(id: string): Promise<User>;
+    getFriends(id: string): Promise<User[]>;
+    addFriend(userId: string, body: {
+        friendId: string;
+    }): Promise<User>;
 }

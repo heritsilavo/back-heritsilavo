@@ -17,14 +17,24 @@ let User = class User {
 exports.User = User;
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'Tsilavo', description: 'Nom de l\'utilisateur' }),
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'xxxxxx', description: 'Mot de passe' }),
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "mdp", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 'path/to/profile/picture', description: 'Photo de profil' }),
+    (0, mongoose_1.Prop)({ required: false, default: '' }),
+    __metadata("design:type", String)
+], User.prototype, "pdp", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: ['user1', 'user2'], description: 'Liste d\'amis' }),
+    (0, mongoose_1.Prop)({ type: [String], default: [] }),
+    __metadata("design:type", Array)
+], User.prototype, "amis", void 0);
 exports.User = User = __decorate([
     (0, mongoose_1.Schema)()
 ], User);
