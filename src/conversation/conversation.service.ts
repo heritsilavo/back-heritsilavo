@@ -86,7 +86,7 @@ export class ConversationService {
     }
 
     if (conversation.is_group) {
-      return 'profile.png';
+      return conversation.image;
     }
 
     const otherParticipantId = conversation.participants.find(participant => participant !== idCurrentUser);
@@ -106,7 +106,7 @@ export class ConversationService {
     const conversationsWithDetails = await Promise.all(
       conversations.map(async (conversation) => {
         const name = await this.getConversationName({idCurrentUser: userId, idConversation: conversation._id});
-        const image = (conversation.is_group)? (await this.getConversationImage({idCurrentUser: userId, idConversation: conversation._id})) : conversation.image;
+        const image = await this.getConversationImage({idCurrentUser: userId, idConversation: conversation._id});
         const lastMessage = await this.messageService.getLastMessage(conversation._id);
 
         console.log(lastMessage?.timestamp);
