@@ -47,6 +47,6 @@ export declare class ConversationService {
         idCurrentUser: string;
         idConversation: string;
     }): Promise<string>;
-    getConversationsByUser(userId: string): Promise<any[]>;
+    getConversationsByUser(userId: string, is_group: boolean): Promise<any[]>;
     formatDate(date: Date): string;
 }

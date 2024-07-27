@@ -8,6 +8,9 @@ export class Conversation {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: false })
+  image: string;
+
   @Prop({ required: true })
   is_group: boolean;
 

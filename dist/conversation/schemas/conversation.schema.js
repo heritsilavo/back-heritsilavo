@@ -19,6 +19,10 @@ __decorate([
     __metadata("design:type", String)
 ], Conversation.prototype, "name", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ required: false }),
+    __metadata("design:type", String)
+], Conversation.prototype, "image", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Boolean)
 ], Conversation.prototype, "is_group", void 0);

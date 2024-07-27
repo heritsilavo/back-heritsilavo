@@ -100,13 +100,13 @@ export class ConversationService {
     return otherParticipant.pdp;
   }
 
-  async getConversationsByUser(userId: string): Promise<any[]> {
-    const conversations = await this.conversationModel.find({ participants: userId }).exec();
+  async getConversationsByUser(userId: string,is_group:boolean): Promise<any[]> {
+    const conversations = await this.conversationModel.find({ participants: userId,is_group }).exec();
     
     const conversationsWithDetails = await Promise.all(
       conversations.map(async (conversation) => {
         const name = await this.getConversationName({idCurrentUser: userId, idConversation: conversation._id});
-        const image = await this.getConversationImage({idCurrentUser: userId, idConversation: conversation._id});
+        const image = (conversation.is_group)? (await this.getConversationImage({idCurrentUser: userId, idConversation: conversation._id})) : conversation.image;
         const lastMessage = await this.messageService.getLastMessage(conversation._id);
 
         console.log(lastMessage?.timestamp);

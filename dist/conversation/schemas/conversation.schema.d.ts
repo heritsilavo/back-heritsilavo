@@ -26,6 +26,7 @@ import { Document } from 'mongoose';
 export type ConversationDocument = Conversation & Document;
 export declare class Conversation {
     name: string;
+    image: string;
     is_group: boolean;
     participants: String[];
 }

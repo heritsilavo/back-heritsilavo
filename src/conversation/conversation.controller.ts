@@ -68,7 +68,15 @@ export class ConversationController {
   @ApiParam({ name: 'idUser', description: 'id de l\'user' })
   @Get('user/:idUser')
   async getConversationsByUser(@Param('idUser') idUser: string) {
-    const conversations = await this.conversationService.getConversationsByUser(idUser);
+    const conversations = await this.conversationService.getConversationsByUser(idUser,false);
+    return conversations;
+  }
+
+
+  @ApiParam({ name: 'idUser', description: 'id de l\'user' })
+  @Get('user_s_group/:idUser')
+  async getConversationsGroupByUser(@Param('idUser') idUser: string) {
+    const conversations = await this.conversationService.getConversationsByUser(idUser,true);
     return conversations;
   }
 }

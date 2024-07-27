@@ -16,4 +16,5 @@ export declare class ConversationController {
     }): Promise<any>;
     getConversationName(idCurrentUser: string, idConversation: string): Promise<String>;
     getConversationsByUser(idUser: string): Promise<any[]>;
+    getConversationsGroupByUser(idUser: string): Promise<any[]>;
 }

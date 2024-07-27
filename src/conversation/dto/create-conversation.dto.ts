@@ -5,6 +5,10 @@ export class CreateConversationDto {
   @IsOptional()
   name?: string;
 
+  @IsString()
+  @IsOptional()
+  image?: string;
+
   @IsBoolean()
   @IsNotEmpty()
   is_group: boolean;
