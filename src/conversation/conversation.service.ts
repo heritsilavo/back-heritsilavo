@@ -40,10 +40,13 @@ export class ConversationService {
   }
 
   async remove(id: string): Promise<void> {
-    const result = await this.conversationModel.findByIdAndDelete(id).exec();
-    if (!result) {
+    const conversation = await this.conversationModel.findByIdAndDelete(id).exec();
+    if (!conversation) {
       throw new NotFoundException(`Conversation with ID ${id} not found`);
     }
+
+    // Supprimer tous les messages associés à cette conversation
+    await this.messageService.removeByConversationId(id);
   }
 
   async checkPrivateConversationExists(senderId: string, receiverId: string): Promise<any> {

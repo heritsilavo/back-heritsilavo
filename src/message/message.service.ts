@@ -40,6 +40,7 @@ export class MessageService {
     if (!result) {
       throw new NotFoundException(`Message with ID ${id} not found`);
     }
+    
   }
 
   async getMessagesByConversation(conversationId: string): Promise<any[]> {
@@ -64,5 +65,9 @@ export class MessageService {
       .sort({ timestamp: -1 })
       .exec();
     return lastMessage;
+  }
+
+  async removeByConversationId(conversationId: string): Promise<void> {
+    await this.messageModel.deleteMany({ conversation_id: conversationId }).exec();
   }
 }
