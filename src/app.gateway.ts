@@ -15,12 +15,11 @@ import {
   
     @SubscribeMessage('sendMessage')
     handleSendMessage(
-      @MessageBody() { message, senderId }: { message: string; senderId: string },
+      @MessageBody() { message, senderId,conversation_id }: { message: string; senderId: string, conversation_id:string },
       @ConnectedSocket() client: Socket,
     ): void {
-      console.log({ message, senderId });
       
-      this.server.emit('message', { message, senderId, senderSocketId: client.id });
+      this.server.emit('message', { conversation_id,message, senderId, senderSocketId: client.id });
     }
   }
   
