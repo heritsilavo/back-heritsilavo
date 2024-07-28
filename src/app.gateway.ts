@@ -18,6 +18,8 @@ import {
       @MessageBody() { message, senderId }: { message: string; senderId: string },
       @ConnectedSocket() client: Socket,
     ): void {
+      console.log({ message, senderId });
+      
       this.server.emit('message', { message, senderId, senderSocketId: client.id });
     }
   }
