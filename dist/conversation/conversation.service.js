@@ -47,10 +47,11 @@ let ConversationService = class ConversationService {
         return updatedConversation;
     }
     async remove(id) {
-        const result = await this.conversationModel.findByIdAndDelete(id).exec();
-        if (!result) {
+        const conversation = await this.conversationModel.findByIdAndDelete(id).exec();
+        if (!conversation) {
             throw new common_1.NotFoundException(`Conversation with ID ${id} not found`);
         }
+        await this.messageService.removeByConversationId(id);
     }
     async checkPrivateConversationExists(senderId, receiverId) {
         const conversation = await this.conversationModel.findOne({
@@ -80,7 +81,7 @@ let ConversationService = class ConversationService {
             throw new common_1.NotFoundException(`Conversation with ID ${idConversation} not found`);
         }
         if (conversation.is_group) {
-            return 'profile.png';
+            return conversation.image;
         }
         const otherParticipantId = conversation.participants.find(participant => participant !== idCurrentUser);
         if (!otherParticipantId) {
@@ -93,7 +94,7 @@ let ConversationService = class ConversationService {
         const conversations = await this.conversationModel.find({ participants: userId, is_group }).exec();
         const conversationsWithDetails = await Promise.all(conversations.map(async (conversation) => {
             const name = await this.getConversationName({ idCurrentUser: userId, idConversation: conversation._id });
-            const image = (conversation.is_group) ? (await this.getConversationImage({ idCurrentUser: userId, idConversation: conversation._id })) : conversation.image;
+            const image = await this.getConversationImage({ idCurrentUser: userId, idConversation: conversation._id });
             const lastMessage = await this.messageService.getLastMessage(conversation._id);
             console.log(lastMessage?.timestamp);
             return {

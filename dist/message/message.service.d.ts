@@ -38,4 +38,5 @@ export declare class MessageService {
     remove(id: string): Promise<void>;
     getMessagesByConversation(conversationId: string): Promise<any[]>;
     getLastMessage(conversationId: string): Promise<Message | null>;
+    removeByConversationId(conversationId: string): Promise<void>;
 }

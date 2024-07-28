@@ -68,6 +68,9 @@ let MessageService = class MessageService {
             .exec();
         return lastMessage;
     }
+    async removeByConversationId(conversationId) {
+        await this.messageModel.deleteMany({ conversation_id: conversationId }).exec();
+    }
 };
 exports.MessageService = MessageService;
 exports.MessageService = MessageService = __decorate([

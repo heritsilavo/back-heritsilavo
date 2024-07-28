@@ -17,6 +17,7 @@ const post_module_1 = require("./post/post.module");
 const conversation_module_1 = require("./conversation/conversation.module");
 const message_module_1 = require("./message/message.module");
 const invitations_module_1 = require("./invitations/invitations.module");
+const app_gateway_1 = require("./app.gateway");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -24,7 +25,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forRoot('mongodb+srv://tsilavo:NN3Rfl8vYAJPQ2Ly@heritsilavo.fbgfz9p.mongodb.net/messagerie?retryWrites=true&w=majority&appName=heritsilavo'), user_module_1.UserModule, fichier_module_1.FichierModule, post_module_1.PostModule, conversation_module_1.ConversationModule, message_module_1.MessageModule, invitations_module_1.InvitationsModule],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, app_gateway_1.AppGateway],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
