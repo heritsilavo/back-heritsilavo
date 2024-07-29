@@ -1,8 +1,8 @@
 export declare class CreatePostDto {
-    image: string;
-    nbrVote: number;
-    date: Date;
-    heure: string;
-    legende: string;
-    idUser: string;
+    readonly image: string;
+    readonly nbrVote: number;
+    readonly date?: Date;
+    readonly heure: string;
+    readonly legende: string;
+    readonly idUser: string;
 }

@@ -28,20 +28,38 @@ let PostController = class PostController {
         return this.postService.findAll();
     }
     findOne(id) {
-        return this.postService.findOne(+id);
+        return this.postService.findOne(id);
     }
     update(id, updatePostDto) {
-        return this.postService.update(+id, updatePostDto);
+        return this.postService.update(id, updatePostDto);
     }
     remove(id) {
-        return this.postService.remove(+id);
+        return this.postService.remove(id);
+    }
+    findPostsByFriends(userId) {
+        return this.postService.findPostsByFriends(userId);
     }
 };
 exports.PostController = PostController;
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Create a new post' }),
     (0, swagger_1.ApiResponse)({ status: 201, description: 'The post has been successfully created.' }),
-    (0, swagger_1.ApiBody)({ type: post_dto_1.CreatePostDto }),
+    (0, swagger_1.ApiBody)({
+        type: post_dto_1.CreatePostDto,
+        examples: {
+            'application/json': {
+                summary: 'Example of a post creation request',
+                value: {
+                    image: 'http://example.com/image.jpg',
+                    nbrVote: 10,
+                    date: '2024-07-29T12:34:56.789Z',
+                    heure: '14:00',
+                    legende: 'A beautiful sunset',
+                    idUser: '60b8d295f8b6c6a12c8d4e44'
+                }
+            }
+        }
+    }),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -70,7 +88,23 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Update a post by ID' }),
     (0, swagger_1.ApiParam)({ name: 'id', description: 'ID of the post to update' }),
-    (0, swagger_1.ApiBody)({ type: post_dto_1.CreatePostDto, description: 'Updated post data' }),
+    (0, swagger_1.ApiBody)({
+        type: post_dto_1.CreatePostDto,
+        description: 'Updated post data',
+        examples: {
+            'application/json': {
+                summary: 'Example of a post update request',
+                value: {
+                    image: 'http://example.com/updated-image.jpg',
+                    nbrVote: 20,
+                    date: '2024-07-30T12:34:56.789Z',
+                    heure: '16:00',
+                    legende: 'An updated beautiful sunset',
+                    idUser: '60b8d295f8b6c6a12c8d4e44'
+                }
+            }
+        }
+    }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'The post has been successfully updated.' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'Post not found' }),
     (0, common_1.Put)(':id'),
@@ -91,6 +125,16 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "remove", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get posts from friends, sorted by most recent' }),
+    (0, swagger_1.ApiParam)({ name: 'userId', description: 'ID of the user to retrieve friends\' posts for' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Return posts from friends sorted by most recent' }),
+    (0, common_1.Get)('friends/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "findPostsByFriends", null);
 exports.PostController = PostController = __decorate([
     (0, swagger_1.ApiTags)('posts'),
     (0, common_1.Controller)('posts'),

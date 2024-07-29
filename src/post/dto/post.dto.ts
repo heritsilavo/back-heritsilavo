@@ -1,8 +1,24 @@
+// src/post/dto/post.dto.ts
+
+import { IsString, IsNumber, IsOptional, IsDate } from 'class-validator';
+
 export class CreatePostDto {
-  image: string;
-  nbrVote: number;
-  date: Date;
-  heure: string; // Assuming 'Heure' is a custom type, it should be replaced by an appropriate type
-  legende: string;
-  idUser: string;
+  @IsString()
+  readonly image: string;
+
+  @IsNumber()
+  readonly nbrVote: number;
+
+  @IsOptional()
+  @IsDate()
+  readonly date?: Date;
+
+  @IsString()
+  readonly heure: string;
+
+  @IsString()
+  readonly legende: string;
+
+  @IsString()
+  readonly idUser: string;
 }

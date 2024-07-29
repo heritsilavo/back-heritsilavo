@@ -10,11 +10,15 @@ exports.PostModule = void 0;
 const common_1 = require("@nestjs/common");
 const post_controller_1 = require("./post.controller");
 const post_service_1 = require("./post.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const user_module_1 = require("../user/user.module");
+const post_shemas_1 = require("./schemas/post.shemas");
 let PostModule = class PostModule {
 };
 exports.PostModule = PostModule;
 exports.PostModule = PostModule = __decorate([
     (0, common_1.Module)({
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: post_shemas_1.Post.name, schema: post_shemas_1.PostSchema }]), user_module_1.UserModule],
         controllers: [post_controller_1.PostController],
         providers: [post_service_1.PostService]
     })

@@ -10,9 +10,9 @@ import { MessageService } from 'src/message/message.service';
 @Injectable()
 export class ConversationService {
   constructor(@InjectModel(Conversation.name) private conversationModel: Model<ConversationDocument>,
-  private readonly userService: UserService,
-  private readonly messageService: MessageService
-) {}
+    private readonly userService: UserService,
+    private readonly messageService: MessageService
+  ) {}
 
   async create(createConversationDto: CreateConversationDto): Promise<Conversation> {
     const createdConversation = new this.conversationModel(createConversationDto);

@@ -3,17 +3,10 @@ import { CreatePostDto } from './dto/post.dto';
 export declare class PostController {
     private readonly postService;
     constructor(postService: PostService);
-    create(createPostDto: CreatePostDto): {
-        image: string;
-        nbrVote: number;
-        date: Date;
-        heure: string;
-        legende: string;
-        idUser: string;
-        id: number;
-    };
-    findAll(): any[];
-    findOne(id: string): any;
-    update(id: string, updatePostDto: Partial<CreatePostDto>): any;
-    remove(id: string): any[];
+    create(createPostDto: CreatePostDto): Promise<import("./schemas/post.shemas").Post>;
+    findAll(): Promise<import("./schemas/post.shemas").Post[]>;
+    findOne(id: string): Promise<import("./schemas/post.shemas").Post>;
+    update(id: string, updatePostDto: Partial<CreatePostDto>): Promise<import("./schemas/post.shemas").Post>;
+    remove(id: string): Promise<import("./schemas/post.shemas").Post>;
+    findPostsByFriends(userId: string): Promise<import("./schemas/post.shemas").Post[]>;
 }

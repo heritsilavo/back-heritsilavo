@@ -16,8 +16,8 @@ exports.AppGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 let AppGateway = class AppGateway {
-    handleSendMessage({ message, senderId }, client) {
-        this.server.emit('message', { message, senderId, senderSocketId: client.id });
+    handleSendMessage({ message, senderId, conversation_id }, client) {
+        this.server.emit('message', { conversation_id, message, senderId, senderSocketId: client.id });
     }
 };
 exports.AppGateway = AppGateway;

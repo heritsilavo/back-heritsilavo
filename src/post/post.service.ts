@@ -1,40 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Post, PostDocument } from './schemas/post.shemas';
 import { CreatePostDto } from './dto/post.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PostService {
-  private posts = [];
+  constructor(
+    @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    private readonly userService: UserService,
+  ) {}
 
-  create(createPostDto: CreatePostDto) {
-    const newPost = { id: Date.now(), ...createPostDto };
-    this.posts.push(newPost);
-    return newPost;
+  async create(createPostDto: CreatePostDto): Promise<Post> {
+    const newPost = new this.postModel(createPostDto);
+    return newPost.save();
   }
 
-  findAll() {
-    return this.posts;
+  async findAll(): Promise<Post[]> {
+    return this.postModel.find().exec();
   }
 
-  findOne(id: number) {
-    return this.posts.find(post => post.id === id);
+  async findOne(id: string): Promise<Post> {
+    return this.postModel.findById(id).exec();
   }
 
-  update(id: number, updatePostDto: Partial<CreatePostDto>) {
-    const postIndex = this.posts.findIndex(post => post.id === id);
-    if (postIndex === -1) {
-      return null;
-    }
-    const updatedPost = { ...this.posts[postIndex], ...updatePostDto };
-    this.posts[postIndex] = updatedPost;
-    return updatedPost;
+  async update(id: string, updatePostDto: Partial<CreatePostDto>): Promise<Post> {
+    return this.postModel.findByIdAndUpdate(id, updatePostDto, { new: true }).exec();
   }
 
-  remove(id: number) {
-    const postIndex = this.posts.findIndex(post => post.id === id);
-    if (postIndex === -1) {
-      return null;
-    }
-    const deletedPost = this.posts.splice(postIndex, 1);
-    return deletedPost;
+  async remove(id: string): Promise<Post> {
+    return this.postModel.findByIdAndDelete(id).exec();
+  }
+
+  async findPostsByFriends(userId: string): Promise<Post[]> {
+    const user = await this.userService.findOne(userId);
+    const friendsIds = user.amis;
+
+    return this.postModel.find({ idUser: { $in: friendsIds } }).sort({ date: -1 }).exec();
   }
 }

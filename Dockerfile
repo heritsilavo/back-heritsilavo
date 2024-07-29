@@ -13,8 +13,8 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 
-# Créer le répertoire uploads si nécessaire, mais ne pas copier depuis l'image de build
-RUN mkdir -p /usr/src/app/uploads
+# Créer le répertoire uploads dans le conteneur et copier le dossier uploads depuis la machine locale
+COPY ./uploads /usr/src/app/uploads
 
 EXPOSE 3000
 CMD ["node", "dist/main"]
