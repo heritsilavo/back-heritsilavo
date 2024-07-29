@@ -34,7 +34,7 @@ export class Post  {
 
   @ApiProperty({ description: 'ID of the Post', example: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
   @Prop()
-  idPost: string;
+  idUser: string;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

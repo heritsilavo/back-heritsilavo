@@ -84,9 +84,7 @@ export class PostController {
 
 
   @ApiOperation({ summary: 'Delete all posts' })
-  @ApiResponse({ status: 200, description: 'All The post has been successfully deleted.' })
-  @ApiResponse({ status: 404, description: 'Post not found' })
-  @Delete("removeAll")
+  @Get("removeAll")
   removeAll() {
     return this.postService.deleteAll();
   }

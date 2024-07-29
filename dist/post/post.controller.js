@@ -130,9 +130,7 @@ __decorate([
 ], PostController.prototype, "remove", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Delete all posts' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'All The post has been successfully deleted.' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'Post not found' }),
-    (0, common_1.Delete)("removeAll"),
+    (0, common_1.Get)("removeAll"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
