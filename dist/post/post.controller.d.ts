@@ -8,5 +8,6 @@ export declare class PostController {
     findOne(id: string): Promise<import("./schemas/post.shemas").Post>;
     update(id: string, updatePostDto: Partial<CreatePostDto>): Promise<import("./schemas/post.shemas").Post>;
     remove(id: string): Promise<import("./schemas/post.shemas").Post>;
+    removeAll(): Promise<void>;
     findPostsByFriends(userId: string): Promise<import("./schemas/post.shemas").Post[]>;
 }

@@ -36,6 +36,9 @@ let PostController = class PostController {
     remove(id) {
         return this.postService.remove(id);
     }
+    removeAll() {
+        return this.postService.deleteAll();
+    }
     findPostsByFriends(userId) {
         return this.postService.findPostsByFriends(userId);
     }
@@ -125,6 +128,15 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "remove", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Delete all posts' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'All The post has been successfully deleted.' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Post not found' }),
+    (0, common_1.Delete)("removeAll"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "removeAll", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get posts from friends, sorted by most recent' }),
     (0, swagger_1.ApiParam)({ name: 'userId', description: 'ID of the user to retrieve friends\' posts for' }),

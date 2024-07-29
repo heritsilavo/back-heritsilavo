@@ -44,6 +44,9 @@ let PostService = class PostService {
         const friendsIds = user.amis;
         return this.postModel.find({ idUser: { $in: friendsIds } }).sort({ date: -1 }).exec();
     }
+    async deleteAll() {
+        await this.postModel.deleteMany({}).exec();
+    }
 };
 exports.PostService = PostService;
 exports.PostService = PostService = __decorate([

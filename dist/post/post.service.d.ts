@@ -36,4 +36,5 @@ export declare class PostService {
     update(id: string, updatePostDto: Partial<CreatePostDto>): Promise<Post>;
     remove(id: string): Promise<Post>;
     findPostsByFriends(userId: string): Promise<Post[]>;
+    deleteAll(): Promise<void>;
 }

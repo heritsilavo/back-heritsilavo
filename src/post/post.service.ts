@@ -39,4 +39,8 @@ export class PostService {
 
     return this.postModel.find({ idUser: { $in: friendsIds } }).sort({ date: -1 }).exec();
   }
+
+  async deleteAll(): Promise<void> {
+    await this.postModel.deleteMany({}).exec();
+  }
 }

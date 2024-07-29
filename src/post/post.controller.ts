@@ -82,6 +82,15 @@ export class PostController {
     return this.postService.remove(id);
   }
 
+
+  @ApiOperation({ summary: 'Delete all posts' })
+  @ApiResponse({ status: 200, description: 'All The post has been successfully deleted.' })
+  @ApiResponse({ status: 404, description: 'Post not found' })
+  @Delete("removeAll")
+  removeAll() {
+    return this.postService.deleteAll();
+  }
+
   @ApiOperation({ summary: 'Get posts from friends, sorted by most recent' })
   @ApiParam({ name: 'userId', description: 'ID of the user to retrieve friends\' posts for' })
   @ApiResponse({ status: 200, description: 'Return posts from friends sorted by most recent' })
