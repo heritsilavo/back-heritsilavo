@@ -37,6 +37,9 @@ export class PostService {
     // Récupère l'utilisateur actuel pour obtenir les amis
     const user = await this.userService.findOne(userId);
     const friendsIds = user.amis;
+    
+    //Avec l'user id courant
+    friendsIds.push(userId);
 
     // Récupère les posts des amis
     const posts = await this.postModel.find({ idUser: { $in: friendsIds } }).sort({ date: -1 }).exec();
