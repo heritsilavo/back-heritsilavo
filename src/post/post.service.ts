@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Post, PostDocument } from './schemas/post.shemas';
@@ -58,5 +58,34 @@ export class PostService {
 
   async deleteAll(): Promise<void> {
     await this.postModel.deleteMany({}).exec();
+  }
+
+  async addVoter(postId: string, userId: string): Promise<Post> {
+    const post = await this.postModel.findById(postId);
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (!post.vontants.includes(userId)) {
+      post.vontants.push(userId);
+      post.nbrVote = post.vontants.length;
+      await post.save();
+    }
+    return post;
+  }
+
+  async removeVoter(postId: string, userId: string): Promise<Post> {
+    const post = await this.postModel.findById(postId);
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    const voterIndex = post.vontants.indexOf(userId);
+    if (voterIndex !== -1) {
+      post.vontants.splice(voterIndex, 1);
+      post.nbrVote = post.vontants.length;
+      await post.save();
+    }
+    return post;
   }
 }

@@ -35,6 +35,10 @@ export class Post  {
   @ApiProperty({ description: 'ID of the Post', example: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
   @Prop()
   idUser: string;
+
+  @ApiProperty({ description: 'ID des gens qui y ont voté', example: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
+  @Prop()
+  vontants: String[];
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

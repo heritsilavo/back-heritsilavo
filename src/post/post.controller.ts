@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete,Patch } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/post.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
@@ -95,5 +95,25 @@ export class PostController {
   @Get('friends/:userId')
   findPostsByFriends(@Param('userId') userId: string) {
     return this.postService.findPostsByFriends(userId);
+  }
+
+  @ApiOperation({ summary: 'Add a voter to a post' })
+  @ApiParam({ name: 'id', description: 'ID of the post to add a voter to' })
+  @ApiParam({ name: 'userId', description: 'ID of the user to add as a voter' })
+  @ApiResponse({ status: 200, description: 'The voter has been successfully added.' })
+  @ApiResponse({ status: 404, description: 'Post not found' })
+  @Patch(':id/add-voter/:userId')
+  addVoter(@Param('id') id: string, @Param('userId') userId: string) {
+    return this.postService.addVoter(id, userId);
+  }
+
+  @ApiOperation({ summary: 'Remove a voter from a post' })
+  @ApiParam({ name: 'id', description: 'ID of the post to remove a voter from' })
+  @ApiParam({ name: 'userId', description: 'ID of the user to remove as a voter' })
+  @ApiResponse({ status: 200, description: 'The voter has been successfully removed.' })
+  @ApiResponse({ status: 404, description: 'Post not found' })
+  @Patch(':id/remove-voter/:userId')
+  removeVoter(@Param('id') id: string, @Param('userId') userId: string) {
+    return this.postService.removeVoter(id, userId);
   }
 }

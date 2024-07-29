@@ -1,6 +1,6 @@
 // src/post/dto/post.dto.ts
 
-import { IsString, IsNumber, IsOptional, IsDate } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsDate,IsArray } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -21,4 +21,7 @@ export class CreatePostDto {
 
   @IsString()
   readonly idUser: string;
+
+  @IsArray()
+  vontants: String[];
 }
