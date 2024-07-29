@@ -34,10 +34,23 @@ export class PostService {
   }
 
   async findPostsByFriends(userId: string): Promise<Post[]> {
+    // Récupère l'utilisateur actuel pour obtenir les amis
     const user = await this.userService.findOne(userId);
     const friendsIds = user.amis;
 
-    return this.postModel.find({ idUser: { $in: friendsIds } }).sort({ date: -1 }).exec();
+    // Récupère les posts des amis
+    const posts = await this.postModel.find({ idUser: { $in: friendsIds } }).sort({ date: -1 }).exec();
+
+    // Pour chaque post, ajoute le nom d'utilisateur de l'auteur
+    const postsWithUsernames = await Promise.all(posts.map(async (post) => {
+      const author = await this.userService.findOne(post.idUser);
+      return {
+        ...post.toObject(),
+        username: author.username, // Ajoute le nom d'utilisateur
+      };
+    }));
+
+    return postsWithUsernames;
   }
 
   async deleteAll(): Promise<void> {
